@@ -7,8 +7,10 @@
 #else
 #  swaymsg "exec alacritty -o font.size=15 -t 'calendar' --class calendar_popup -e bash -c 'cal; read -p \"Press Enter to close...\"'"
 #fi
-
-swaymsg "exec alacritty -o font.size=15 -t 'calendar' --class calendar_popup -e bash -c 'cal; read -p \"Press Enter to close...\"'"
+a=$(swaymsg -t get_tree | jq -e ".. | select(.app_id? == \"calendar_popup\")" | grep calendar)
+if [ -z $a ]; then # -z means empty
+  swaymsg "exec alacritty -o font.size=15 -t 'calendar' --class calendar_popup -e bash -c 'cal; read -p \"Press Enter to close...\"'"
+fi
 
 #sleep 0.2
 
